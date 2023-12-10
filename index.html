@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="module" src="./src/map.js"></script>
+    <script type="module" src="/src/infoBox.js"></script>
+    <link rel="stylesheet" href="src/infoBox.css">
+
+    <title>Vite App</title>
+</head>
+<body>
+    <div id="map"></div>
+    <button onclick="getNotes()" class="x:500px;y:-100px">查看</button>
+
+    <!-- todo use overlay with pixel coordinate projection "tryLocationToPixel" https://learn.microsoft.com/en-us/bingmaps/v8-web-control/map-control-concepts/custom-overlays/topography-overlay-->
+    <template id="InfoBoxNotesTemplate">
+        <form>
+            <ul>
+                <li><textarea readonly></textarea></li>
+                <li><textarea readonly></textarea></li>
+                <li><textarea readonly></textarea></li>
+            </ul>
+        </form>
+    </template>
+    <template id="InfoBoxAddNoteTemplate">
+        <form id="form__1">
+            <span>分享你的经历</span>
+            <ul>
+                <li>标题: <textarea  id="formTitle" placeholder="标题"></textarea></li>
+                <li>地点: <textarea  id="formAddress" placeholder="地点"></textarea></li>
+                <li>选点: <input  id="formCheck" type="checkbox"></li>
+                <li>内容: <textarea  id="formContent" placeholder="内容"></textarea></li>
+            </ul>
+            <button onclick="addNote()">提交</button>
+        </form>
+    </template>
+
+</body>
+</html>
+
