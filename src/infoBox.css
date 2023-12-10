@@ -1,4 +1,8 @@
-#map{
+.map_infobox{
     width: 1000px;
     height: 500px;
+}
+#InfoBoxVue{
+    height: 0;
+    pointer-events: none;
 }

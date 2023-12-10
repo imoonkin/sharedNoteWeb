@@ -1,11 +1,9 @@
 import {points, queryNotesNearCenter} from "@/notes.js";
-import {infobox, initInfobox, renderInfobox} from "@/infoBox.js";
 
 let map, center
-let clickMarker=[]
+let clickMarker
 
 function initMap() {
-
     center = new Microsoft.Maps.Location(39.994104, 116.387503)
     map = new Microsoft.Maps.Map('#map', {
         credentials: 'AjKEvK5u4xGH3PutDiec0s4s7NbmCrGvoYYhFezxbOSe2tHROcO_h0GLIoAMYoIR',
@@ -13,7 +11,13 @@ function initMap() {
         zoom: 15
     });
     Microsoft.Maps.Events.addHandler(map, 'click', clickMapHandler);
-    initInfobox()
+    Microsoft.Maps.Events.addHandler(map, 'viewchange', attachInfobox);
+}
+
+const attachInfobox=function (e) {
+    if (!window.infobox.value.show) return
+    let px=map.tryLocationToPixel(window.infobox.value.location, Microsoft.Maps.PixelReference.control)
+    window.updateCenterCrd(px)
 }
 
 const clickMapHandler = function (e) {
@@ -23,8 +27,10 @@ const clickMapHandler = function (e) {
     if (!clickMarker){
         clickMarker = new Microsoft.Maps.Pushpin(e.location)
         clickMarker.metadata={
-            id:"-1",
-            title:"add new note"
+            notesInfo:{
+                notes:[]
+            },
+            location:e.location,
         }
         Microsoft.Maps.Events.addHandler(clickMarker, 'click', clickMarkerHandler);
         map.entities.push(clickMarker);
@@ -32,33 +38,14 @@ const clickMapHandler = function (e) {
     } else {
         map.entities.remove(clickMarker)
         clickMarker = null
-        infobox.setMap(null)
+        window.infobox.value.show=false
     }
 
 };
 const clickMarkerHandler = function (e) {
     console.log("click marker=", e);
-    infobox.setLocation(e.location)
-    infobox.setMap(map)
-    infobox.metadata.location=e.location
-    if (!e.target.metadata.id) {
-        infobox.metadata.location = e.target.metadata.location
-    }
-    let infoboxHtml=renderInfobox(e.target.metadata)
-    let f=function(){
-        let host=document.querySelector("#InfoBox")
-
-        if (!host){
-            console.log("wtf")
-            return
-        }
-        host.innerHTML=''
-        host.appendChild(infoboxHtml)
-    }
-    setTimeout(f,100)
-
-    // add expandable div for add new note function
-
+    window.clickMarkerHandler(e)
+    attachInfobox(e)
 }
 
 const getNotes = function () {

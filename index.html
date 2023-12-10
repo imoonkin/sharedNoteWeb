@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script type="module" src="./src/map.js"></script>
-    <script type="module" src="/src/infoBox.js"></script>
+    <script type="module" src="./src/infoBoxVue.js"></script>
     <link rel="stylesheet" href="src/infoBox.css">
 
     <title>Vite App</title>
 </head>
 <body>
-    <div id="map"></div>
-    <button onclick="getNotes()" class="x:500px;y:-100px">查看</button>
-
+    <div>
+        <div id="map" class="map_infobox"></div>
+        <div id="InfoBoxVue"></div>
+    </div>
+    <button onclick="getNotes()">查看</button>
     <!-- todo use overlay with pixel coordinate projection "tryLocationToPixel" https://learn.microsoft.com/en-us/bingmaps/v8-web-control/map-control-concepts/custom-overlays/topography-overlay-->
     <template id="InfoBoxNotesTemplate">
         <form>
