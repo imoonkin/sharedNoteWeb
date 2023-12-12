@@ -12,34 +12,15 @@
     <title>Vite App</title>
 </head>
 <body>
-    <div>
+    <h1>共享小本本</h1>
+    <h3>记录你遇到的坑，借鉴前人踩过的坑</h3>
+    <div class="mapWrap">
         <div id="map" class="map_infobox"></div>
-        <div id="InfoBoxVue"></div>
     </div>
-    <button onclick="getNotes()">查看</button>
-    <!-- todo use overlay with pixel coordinate projection "tryLocationToPixel" https://learn.microsoft.com/en-us/bingmaps/v8-web-control/map-control-concepts/custom-overlays/topography-overlay-->
-    <template id="InfoBoxNotesTemplate">
-        <form>
-            <ul>
-                <li><textarea readonly></textarea></li>
-                <li><textarea readonly></textarea></li>
-                <li><textarea readonly></textarea></li>
-            </ul>
-        </form>
-    </template>
-    <template id="InfoBoxAddNoteTemplate">
-        <form id="form__1">
-            <span>分享你的经历</span>
-            <ul>
-                <li>标题: <textarea  id="formTitle" placeholder="标题"></textarea></li>
-                <li>地点: <textarea  id="formAddress" placeholder="地点"></textarea></li>
-                <li>选点: <input  id="formCheck" type="checkbox"></li>
-                <li>内容: <textarea  id="formContent" placeholder="内容"></textarea></li>
-            </ul>
-            <button onclick="addNote()">提交</button>
-        </form>
-    </template>
+    <div id="snackbar">视野内没有，扩大视野或平移视野</div>
 
+    <div id="InfoBoxVue"></div>
+    <button id="setDefaultStart" onclick="setDefaultStart()">当前视野作为你的初始视野</button>
 </body>
 </html>
 

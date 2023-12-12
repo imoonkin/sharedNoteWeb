@@ -1,5 +1,6 @@
 import {host, schema} from "../staticConfig.js";
-export let points=[{
+
+let points=[{
     latitude:39.994104,
     longitude:116.387503,
     notes:[{
@@ -31,10 +32,13 @@ export let points=[{
         id:"6"
     }]
 }]
-export async function queryNotesNearCenter(latitude, longitude){
+export async function queryNotesNearCenter(latitude1,latitude2,longitude1, longitude2){
     const params=new URLSearchParams({
-        latitude:latitude,
-        longitude:longitude,
+        latitude1:latitude1,
+        latitude2:latitude2,
+        longitude1:longitude1,
+        longitude2:longitude2,
+
     })
     const response = await fetch(schema+"://"+host+"/range?"+params.toString(), {
         method: "POST",
@@ -43,7 +47,7 @@ export async function queryNotesNearCenter(latitude, longitude){
     });
     const data = await response.json();
     console.log(data)
-
+    return points
 }
 
 export async function queryAddNewNote(newNote){

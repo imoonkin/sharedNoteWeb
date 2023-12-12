@@ -1,17 +1,28 @@
-import {points, queryNotesNearCenter} from "@/notes.js";
+import {queryNotesNearCenter} from "@/notes.js";
 
 let map, center
 let clickMarker
+let markers=[]
 
 function initMap() {
-    center = new Microsoft.Maps.Location(39.994104, 116.387503)
+    center=JSON.parse(localStorage.getItem("center"))
+    let zoom=JSON.parse(localStorage.getItem("zoom"))
+    if (!center || !center.latitude || !center.longitude){
+        localStorage.clear()
+        center = new Microsoft.Maps.Location(39.994104, 116.387503)
+        zoom=15
+    }
     map = new Microsoft.Maps.Map('#map', {
         credentials: 'AjKEvK5u4xGH3PutDiec0s4s7NbmCrGvoYYhFezxbOSe2tHROcO_h0GLIoAMYoIR',
         center: center,
-        zoom: 15
+        zoom: zoom
     });
     Microsoft.Maps.Events.addHandler(map, 'click', clickMapHandler);
     Microsoft.Maps.Events.addHandler(map, 'viewchange', attachInfobox);
+}
+function setDefaultStart() {
+    localStorage.setItem("center", JSON.stringify(map.getCenter()))
+    localStorage.setItem("zoom", JSON.stringify(map.getZoom()))
 }
 
 const attachInfobox=function (e) {
@@ -28,7 +39,8 @@ const clickMapHandler = function (e) {
         clickMarker = new Microsoft.Maps.Pushpin(e.location)
         clickMarker.metadata={
             notesInfo:{
-                notes:[]
+                notes:[],
+                "id":"-1"
             },
             location:e.location,
         }
@@ -49,20 +61,36 @@ const clickMarkerHandler = function (e) {
 }
 
 const getNotes = function () {
-    console.log("click marker=",clickMarker)
-    center = map.getCenter()
-    queryNotesNearCenter(center.latitude,center.longitude)
-
-    points.forEach((p,i)=>{
-        let l=new Microsoft.Maps.Location(p.latitude,p.longitude)
-        let m=new Microsoft.Maps.Pushpin(l)
-        m.metadata={
-            notesInfo:p,
-            location:l
-        }
-        map.entities.push(m)
-        Microsoft.Maps.Events.addHandler(m, 'click', clickMarkerHandler);
+    // remove existing marker
+    markers.forEach((m,i)=>{
+        map.entities.remove(m)
     })
+    markers=[]
+    let nothing=function (){
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+    let createMarker=function (r){
+        r.forEach((p,i)=>{
+            let l=new Microsoft.Maps.Location(p.latitude,p.longitude)
+            let m=new Microsoft.Maps.Pushpin(l)
+            m.metadata={
+                notesInfo:p,
+                location:l
+            }
+            map.entities.push(m)
+            markers.push(m)
+            Microsoft.Maps.Events.addHandler(m, 'click', clickMarkerHandler);
+        })
+        if (markers.length===0){
+            nothing()
+        }
+    }
+    let b=map.getBounds()
+    queryNotesNearCenter(b.getSouth(), b.getNorth(), b.getWest(), b.getEast())
+        .catch((e)=>{nothing()})
+        .then(r  =>createMarker)
 
 }
 
@@ -70,7 +98,7 @@ const getNotes = function () {
 
 window.initMap=initMap
 window.getNotes=getNotes;
-
+window.setDefaultStart=setDefaultStart;
 
 (function (){
     const script=document.createElement('script')
