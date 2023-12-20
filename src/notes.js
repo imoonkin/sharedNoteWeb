@@ -7,30 +7,6 @@ let points=[{
         title:"t1",
         id:"1"
     }]
-
-},{
-    latitude:39.984104,
-    longitude:116.397503,
-    notes:[{
-        title:"t12",
-        id:"2"
-    },{
-        title:"t13",
-        id:"3"
-    }]
-},{
-    latitude:39.974104,
-    longitude:116.407503,
-    notes:[{
-        title:"t14",
-        id:"4"
-    },{
-        title:"t15",
-        id:"5"
-    },{
-        title:"t16",
-        id:"6"
-    }]
 }]
 export async function queryNotesNearCenter(latitude1,latitude2,longitude1, longitude2){
     const params=new URLSearchParams({
@@ -47,7 +23,7 @@ export async function queryNotesNearCenter(latitude1,latitude2,longitude1, longi
     });
     const data = await response.json();
     console.log(data)
-    return points
+    return data
 }
 
 export async function queryAddNewNote(newNote){
