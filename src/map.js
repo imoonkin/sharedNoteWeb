@@ -38,11 +38,9 @@ const clickMapHandler = function (e) {
     if (!clickMarker){
         clickMarker = new Microsoft.Maps.Pushpin(e.location)
         clickMarker.metadata={
-            notesInfo:{
-                notes:[],
-                "id":"-1"
-            },
+            notesInfo:[],
             location:e.location,
+            id:0
         }
         Microsoft.Maps.Events.addHandler(clickMarker, 'click', clickMarkerHandler);
         map.entities.push(clickMarker);
@@ -76,9 +74,10 @@ const getNotes = function () {
             let l=new Microsoft.Maps.Location(p.latitude,p.longitude)
             let m=new Microsoft.Maps.Pushpin(l)
             m.metadata={
-                notesInfo:p,
+                notesInfo:p.notesInfo,
                 location:l
             }
+            console.log("create marker->",m)
             map.entities.push(m)
             markers.push(m)
             Microsoft.Maps.Events.addHandler(m, 'click', clickMarkerHandler);
@@ -90,7 +89,7 @@ const getNotes = function () {
     let b=map.getBounds()
     queryNotesNearCenter(b.getSouth(), b.getNorth(), b.getWest(), b.getEast())
         .catch((e)=>{nothing()})
-        .then(r  =>createMarker)
+        .then(r  =>{createMarker(r);})
 
 }
 

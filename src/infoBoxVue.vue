@@ -8,7 +8,7 @@ const mapHeight=500
 let show=ref(false)
 let showAddNotes=ref(false)
 let location
-let notes=ref('')
+let notesInfo=ref('')
 let infobox=ref({
     crdx:crdx,
     crdy:crdy,
@@ -31,9 +31,8 @@ window.clickMarkerHandler=function (e){
     showAddNotes.value=false
     formCheck.value=false
     infobox.value.location=e.location
-    notes.value=e.target.metadata.notesInfo.notes
+    notesInfo.value=e.target.metadata.notesInfo
     infobox.value.markerMetadata=e.target.metadata
-    console.log("marker=",e)
 }
 let formTitle=ref('')
 let formAddress=ref('')
@@ -64,7 +63,7 @@ function getNotes(){
 
 <template>
     <div id="infoboxContainer" v-if="show">
-        <div class="notes" v-for="note in notes">
+        <div class="notes" v-for="note in notesInfo">
             <ul class="notes-ul">
                 <li><textarea readonly>{{note.title}}</textarea></li>
                 <li><textarea readonly>{{note.address}}</textarea></li>

@@ -18,11 +18,11 @@ export async function queryNotesNearCenter(latitude1,latitude2,longitude1, longi
     })
     const response = await fetch(schema+"://"+host+"/range?"+params.toString(), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json"},
         body: JSON.stringify({ title: "Vue POST Request Example" })
     });
     const data = await response.json();
-    console.log(data)
+    console.log("getNote resp=",data)
     return data
 }
 
