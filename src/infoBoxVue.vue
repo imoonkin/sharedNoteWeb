@@ -24,7 +24,7 @@ onMounted(()=>{
 
 window.updateCenterCrd=function (pixelLocation){
     crdx.value=Math.round(pixelLocation.x)+"px"
-    crdy.value=(Math.round(pixelLocation.y)-mapHeight)+"px"
+    crdy.value=(Math.round(pixelLocation.y))+"px"
 }
 window.clickMarkerHandler=function (e){
     show.value=true
@@ -38,6 +38,7 @@ let formTitle=ref('')
 let formAddress=ref('')
 let formCheck=ref(false)
 let formContent=ref('')
+let formEmail=ref('')
 function addNote(){
     console.log("submit")
     if (formTitle.value.length===0 || formAddress.value.length===0){
@@ -52,7 +53,8 @@ function addNote(){
         address:formAddress.value,
         content:formContent.value,
         latitude:infobox.value.markerMetadata.location.latitude,
-        longitude:infobox.value.markerMetadata.location.longitude
+        longitude:infobox.value.markerMetadata.location.longitude,
+        email:formEmail.value
     })
 }
 

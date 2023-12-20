@@ -7,20 +7,22 @@
 
     <script type="module" src="./src/map.js"></script>
     <script type="module" src="./src/infoBoxVue.js"></script>
+    <script type="module" src="./src/Sidebar.js"></script>
     <link rel="stylesheet" href="src/infoBox.css">
 
     <title>Vite App</title>
 </head>
 <body>
-    <h1>共享小本本</h1>
-    <h3>记录你遇到的坑，借鉴前人踩过的坑</h3>
+    <div id="SideBar"></div>
+    <div id="InfoBoxVue"></div>
+
     <div class="mapWrap">
         <div id="map" class="map_infobox"></div>
     </div>
     <div id="snackbar">视野内没有，扩大视野或平移视野</div>
 
-    <div id="InfoBoxVue"></div>
-    <button id="setDefaultStart" onclick="setDefaultStart()">当前视野作为你的初始视野</button>
+
+
 </body>
 </html>
 
